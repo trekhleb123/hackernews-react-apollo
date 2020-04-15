@@ -4,21 +4,28 @@ import "./styles/index.css"
 import App from "./components/App"
 import * as serviceWorker from "./serviceWorker"
 
-import { ApolloProvider } from "react-apollo"
-import { ApolloClient } from "apollo-client"
-import { createHttpLink } from "apollo-link-http"
-import { InMemoryCache } from "apollo-cache-inmemory"
-
-//create the httpLink that will connect your ApolloClient instance with the GraphQL API
-const httpLink = createHttpLink({
-  uri: "http://localhost:4000",
-})
+import { ApolloProvider } from "@apollo/react-hooks"
+import { InMemoryCache } from "apollo-boost"
+import ApolloClient, { gql } from "apollo-boost"
 
 //instantiate ApolloClient by passing in the httpLink and a new instance of an InMemoryCache
 const client = new ApolloClient({
-  link: httpLink,
+  uri: "http://localhost:4000/graphql",
   cache: new InMemoryCache(),
 })
+
+// client
+//   .query({
+//     query: gql`
+//       {
+//         link(id: 1) {
+//           id
+//           description
+//         }
+//       }
+//     `,
+//   })
+//   .then((result) => console.log(result))
 
 ReactDOM.render(
   <ApolloProvider client={client}>
